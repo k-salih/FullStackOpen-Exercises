@@ -1,0 +1,17 @@
+title Single Page App
+
+note over browser:
+User submits a new form.
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: JSON data,HTML Status Code: 201
+
+note over browser:
+browser executes the event handler
+that creates and adds the note to the list and rerenders it.
+end note
+
+note over browser:
+browser displays the note the the console.
+end note
