@@ -20,7 +20,8 @@ end note
 
 browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
 server-->browser: [{content: "thanks", date: "2022-06-27T09:26:01.357Z"}, ...]
-
+browser->server: HTTP GET https://studies.cs.helsinki.fi/favicon.ico
+server-->browser: [{content: "thanks", date: "2022-06-27T09:26:01.357Z"}, ...]
 
 note over browser:
 browser executes the event handler
