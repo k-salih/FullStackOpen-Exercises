@@ -1,13 +1,11 @@
 import Content from './Content'
-import Total from './Total'
 
-const Course = ({course}) => {
+const Course = ({courses}) => {
     return (
     <div>
-    <Content parts = {course.parts}/>
-    <Total parts = {course.parts}/>
+        {courses.map(course => <Content key={course.id} parts={course.parts} course={course}/>)}
     </div>
-    )
+)
 }
 
 export default Course
