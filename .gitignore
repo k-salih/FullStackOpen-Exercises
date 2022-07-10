@@ -20,5 +20,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-part2/courseinfo/.gitignore
 part2/courseinfo/package-lock.json
+part2/phonebook/package-lock.json
+.gitignore
