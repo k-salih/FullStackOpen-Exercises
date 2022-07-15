@@ -21,3 +21,5 @@ const PersonForm = ({name, number, onSubmit, onNameChange, onNumberChange}) => {
     </form>
   )
 }
+
+export default PersonForm

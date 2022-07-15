@@ -5,3 +5,5 @@ const SearchFilter = ({ filter, onChange }) => {
     </div>
   )
 }
+
+export default SearchFilter
