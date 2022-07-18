@@ -3,6 +3,7 @@ import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import RenderPersons from './components/GetPersons'
 import SearchFilter from './components/SearchFilter'
+import personService from './services/person'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,14 +12,12 @@ const App = () => {
   const [searchBy, setSearch] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
-  }, [])
+  }, [])  
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -40,11 +39,17 @@ const App = () => {
       id:persons.length + 1
     }
     if (persons.map(person => person.name).includes(personObject.name) === false) {
-      setPersons(persons.concat(personObject))
-      setNewName("")
-      setNewNumber("");
+      personService
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
     } else {
-      window.alert(`${newName} is already added to phonebook` );
+      window.alert(`${newName} is already added to phonebook` )
+      setNewName('')
+      setNewNumber('')
     } 
   }
   
