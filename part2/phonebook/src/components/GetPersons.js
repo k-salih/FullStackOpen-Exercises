@@ -1,13 +1,27 @@
-const RenderPersons = ({persons, searchBy}) => {
+const RenderPersons = ({persons, searchBy, onDelete}) => {
 
   const filteredPersons = persons.filter(person => {
     return (person.name.toLowerCase().includes(searchBy.toLowerCase()))})
 
   if (searchBy === "") {
-    return (persons.map(person => <p key={person.name}>{person.name} {person.number}</p>));
+    return (persons.map(person => {
+      return (
+    <div key={person.id}>
+      {person.name} {person.number + " "} 
+      <button onClick={() => onDelete(person)}> delete </button>
+    </div>)
+  }));
 
   } else {
-    return (filteredPersons.map(person => <p key={person.name}>{person.name} {person.number}</p>))
+    return (
+      filteredPersons.map(person => {
+      return (
+      <div key={person.id}>
+        {person.name} {person.number + " "} <button onClick={() => onDelete(person)}> delete </button>
+      </div>
+      )
+    })
+   )
   } 
 }
 

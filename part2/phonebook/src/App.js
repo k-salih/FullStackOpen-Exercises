@@ -11,14 +11,6 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchBy, setSearch] = useState('')
 
-  useEffect(() => {
-    personService
-      .getAll()
-      .then(initialPersons => {
-        setPersons(initialPersons)
-      })
-  }, [])  
-
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -52,7 +44,26 @@ const App = () => {
       setNewNumber('')
     } 
   }
+
+
+  const deleteEntry = (person) => {
+    const personToDelete = persons.find(p => p.id === person.id)
+      if (window.confirm(`Delete ${person.name} ?`)) {
+        return (
+        personService
+          .deletePerson(person.id)
+          .then(setPersons(persons.filter(person => person.id !== personToDelete.id))
+        ))
+      }
+  }
   
+  useEffect(() => {
+      personService
+        .getAll()
+        .then(initialPersons => {
+          setPersons(initialPersons)
+        })
+  }, [])  
 
   return (
     <div>
@@ -65,7 +76,7 @@ const App = () => {
       onNameChange={handleNameChange} onNumberChange={handleNumberChange}/>
 
       <h2>Numbers</h2>
-      <RenderPersons persons={persons} searchBy={searchBy}/>
+      <RenderPersons persons={persons} searchBy={searchBy} onDelete={deleteEntry}/>
     </div>
   )
 }
