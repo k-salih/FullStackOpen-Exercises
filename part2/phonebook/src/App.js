@@ -28,7 +28,7 @@ const App = () => {
     const personObject = {
       name: newName,
       number: newNumber,
-      id:persons.length + 1
+      id: Math.max(...persons.map(person => person.id)) + 1
     }
     if (persons.map(person => person.name).includes(personObject.name) === false) {
       personService
