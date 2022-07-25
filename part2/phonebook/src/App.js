@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import RenderPersons from './components/GetPersons'
 import SearchFilter from './components/SearchFilter'
 import personService from './services/person'
+import Notification from './components/Notification'
+
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchBy, setSearch] = useState('')
+  const [message, setMessage] = useState(null)
+  const [negative, setNegative] = useState(false)
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -37,6 +40,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setMessage(`${personObject.name} has been added to phonebook`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     } else {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?` )) {
@@ -49,12 +56,21 @@ const App = () => {
               setPersons(persons.map(person => person.id === returnedPerson.id ? returnedPerson : person))
               setNewName('')
               setNewNumber('')
-            }
+              setMessage(`${personObject.name}'s number has been changed to ${newNumber}`)
+              setTimeout(() => {
+                setMessage(null)
+              },5000)})
+              .catch( error => {
+                setMessage(`${personObject.name} has already been deleted from the server`)
+                setNegative(true)
+                setTimeout(() => {
+                  setMessage(null)
+                },5000)
+              })
         )
-      )}
-    } 
+      }
+    }
   }
-
 
   const deleteEntry = (person) => {
     const personToDelete = persons.find(p => p.id === person.id)
@@ -62,7 +78,13 @@ const App = () => {
         return (
         personService
           .deletePerson(person.id)
-          .then(setPersons(persons.filter(person => person.id !== personToDelete.id))
+          .then( () => {
+            setPersons(persons.filter(person => person.id !== personToDelete.id))
+            setMessage(`${person.name} has been deleted.`)
+            setTimeout(() => {
+              setMessage(null)
+            },5000)
+          }
         ))
       }
   }
@@ -78,6 +100,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} negative={negative}/>
       filter shown with
       <SearchFilter value={searchBy} onChange={handleSearch}/>
 
@@ -89,7 +112,7 @@ const App = () => {
       <RenderPersons persons={persons} searchBy={searchBy} onDelete={deleteEntry}/>
     </div>
   )
+
 }
 
 export default App
-
