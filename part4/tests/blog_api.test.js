@@ -21,6 +21,29 @@ test('correct number of blog posts are returned as json', async () => {
     expect(response.body.length).toBe(helper.initialBlogs.length)
 },500000)
 
+test('a valid blog can be added', async () => {
+    const newBlog = {
+        title: 'Test blog',
+        author: 'Test author',
+        url: 'www.test.com',
+        likes: 0
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+    
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
+
+    const titles = blogsAtEnd.map(n => n.title)
+    expect(titles).toContain('Test blog')
+} ,500000)
+
+
+
 test('unique identifier property of the blog posts is named id', async () => {
     const response = await api.get('/api/blogs')
     expect(response.body[0].id).toBeDefined()
