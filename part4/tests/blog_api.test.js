@@ -93,6 +93,46 @@ test('deletion of a blog post succeds with status code 204', async () => {
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length - 1)
 } ,500000)
 
+test('valid blog can be updated', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+    const updatedBlog = {
+        title: 'Test blog2',
+        author: 'Test author2',
+        url: 'www.test2.com',
+        likes: 0
+    }
+
+    await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(updatedBlog)
+        .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const titles = blogsAtEnd.map(n => n.title)
+    expect(titles).toContain('Test blog2')
+} ,500000)
+
+test('particular blog properties can be updated', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+    const updatedBlog = {
+        author: 'Test 213author2',
+        likes: 21
+    }
+
+    await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(updatedBlog)
+        .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    authors = blogsAtEnd.map(n => n.author)
+    expect(authors).toContain('Test 213author2')
+
+} ,500000)
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
