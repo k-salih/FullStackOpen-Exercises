@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 content-type: application/json
 
 {
-  "title": "Salihonya",
-  "author": "Salih",
+  "title": "Salih's World2",
+  "author": "Salih Kahyaoğlu",
   "url": "www.salihonya.com",
-  "likes": 132321
+  "likes": 121
 }
