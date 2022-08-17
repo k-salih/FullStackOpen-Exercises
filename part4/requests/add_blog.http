@@ -1,9 +1,9 @@
 POST http://localhost:3003/api/blogs
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NjKsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNhbGlob255YTIiLCJpZCI6IjYyZmJiMzEzNTQ5OGNiMGIwMzdjODgzNCIsImlhdCI6MTY2MDY2MjU5N30.KnX7gdb19uqQ0ddpJIBnlr54jWx9dGHKGmw7Em7-Bm8
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlNhbGlob255YSIsImlkIjoiNjJmYTk0NDlkMzhmOWFkOGJkMDFiNzIxIiwiaWF0IjoxNjYwNzYxMzk1fQ.yEWFAcSUc3e5mm-EQQWC2XM548V5vf3ndydKQ6Je0-g
 
 {
-  "title": "Salih's Wor2l3d2",
+  "title": "Salih's test",
   "author": "Salih Kahyaoğlu",
   "url": "www.salihonya.com",
   "likes": 121
