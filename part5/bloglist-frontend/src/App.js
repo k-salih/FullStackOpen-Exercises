@@ -3,14 +3,13 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import BlogForm from './components/BlogForm'
-
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
-  const [message, setMessage] = useState(null)
   const [error, setError] = useState(null)
 
 
@@ -46,7 +45,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setError('Wrong credentials')
+      setError(<Notification message={exception.response.data.error} negative={true} />)
       setTimeout(() => {
         setError(null)
       }, 5000)
@@ -61,6 +60,7 @@ const App = () => {
   if (user === null) {
     return (
       <div>
+        {error}
         <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
