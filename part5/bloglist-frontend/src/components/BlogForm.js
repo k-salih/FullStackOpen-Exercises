@@ -1,14 +1,12 @@
 import {useState} from 'react'
-import {useEffect} from 'react'
 import Notification from './Notification'
 import BlogService from '../services/blogs'
 
-const BlogForm = () => {
+const BlogForm = ({toggle}) => {
     const [title, setTitle] = useState('')
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
     const [message, setMessage] = useState(null)
-
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -17,6 +15,7 @@ const BlogForm = () => {
             author,
             url
         }
+
         BlogService.create(blogObject)
             .then(returnedBlog => {
                 setTitle('')
@@ -25,13 +24,14 @@ const BlogForm = () => {
                 setMessage(<Notification message={`a new blog ${title} by ${author} added`} negative={false} />)
                 setTimeout(() => {
                     setMessage(null)
+                    toggle()
                 } , 5000)
             })
             .catch(error => {
                 setMessage(<Notification message={error.response.data.error} negative={true} />)
                 setTimeout(() => {
                     setMessage(null)
-                } , 5000)
+                } , 5000)               
             } )
     }
 
