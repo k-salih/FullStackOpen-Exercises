@@ -14,10 +14,19 @@ const create = async newBlog => {
   return response.data
 }
 
+const update = async (id, newBlog) => {
+  const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
+  const response = await axios.put(`${baseUrl}/${id}`, newBlog, {
+    headers: { Authorization: `bearer ${user.token}` }
+  })
+  return response.data
+}
+
+// eslint-disable-next-line
 let token = null
 
 const setToken = newToken => {
   token = `bearer ${newToken}`
 }
-
-export default { getAll, create, setToken }
+// eslint-disable-next-line
+export default { getAll, create, update, setToken }
