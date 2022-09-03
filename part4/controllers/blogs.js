@@ -8,6 +8,16 @@ blogsRouter.get('/', async (request, response) => {
     response.json(blogs.map(blog => blog.toJSON()))
 })
 
+blogsRouter.get('/:id', async (request, response) => {
+    const blog = await Blog.findById(request.params.id)
+    if (blog) {
+        response.json(blog.toJSON())
+    } else {
+        response.status(404).end()
+    }
+})
+
+
 blogsRouter.post('/', userExtractor, async (request, response) => {
   const body = request.body
   const user = request.user
@@ -38,12 +48,15 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
   response.status(204).end()
 })
 
-blogsRouter.put('/:id', async (request, response) => {
+blogsRouter.put('/:id', userExtractor, async (request, response) => {
+  const user = request.user
+
   const blog = {
     title: request.body.title,
     likes: request.body.likes,
     author: request.body.author,
-    url: request.body.url
+    url: request.body.url,
+    user: user._id
   }
 
   await Blog.findByIdAndUpdate(request.params.id, blog, {new: true})
