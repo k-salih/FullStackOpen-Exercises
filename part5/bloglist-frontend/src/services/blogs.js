@@ -22,6 +22,15 @@ const update = async (id, newBlog) => {
   return response.data
 }
 
+const remove = async (id) => {
+  const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
+  const response = await axios.delete(`${baseUrl}/${id}`, {
+    headers: { Authorization: `bearer ${user.token}` }
+  })
+  return response.data
+}
+
+
 // eslint-disable-next-line
 let token = null
 
@@ -29,4 +38,4 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 // eslint-disable-next-line
-export default { getAll, create, update, setToken }
+export default { getAll, create, update, remove, setToken }

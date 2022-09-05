@@ -17,6 +17,15 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
+  const deleteStyle = {
+    backgroundColor: 'red',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '5px',
+    cursor: 'pointer'
+    }
+
   const likeHandler = async () => {
     setLikes(likes + 1)
 
@@ -28,6 +37,12 @@ const Blog = ({ blog }) => {
     const response = await BlogService.update(blog.id, updatedBlog)
   }
 
+  const deleteHandler = async () => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+        const response = await BlogService.remove(blog.id)
+    }
+    }
+
 
   return (
       <div style={blogStyle}>
@@ -37,7 +52,8 @@ const Blog = ({ blog }) => {
           <div style={{ display: visible ? '' : 'none' }}>
               {blog.url} <br />
               likes {likes} <button onClick={likeHandler}>like</button> <br />
-              {blog.author}
+              {blog.author} <br />
+              <button style={deleteStyle} onClick={deleteHandler}>remove</button>
           </div>
       </div>
   )
