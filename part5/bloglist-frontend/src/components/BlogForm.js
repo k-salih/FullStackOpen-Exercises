@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import Notification from './Notification'
 import BlogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const BlogForm = ({toggle}) => {
     const [title, setTitle] = useState('')
@@ -50,5 +51,10 @@ const BlogForm = ({toggle}) => {
         </div>
     )
 }
+
+BlogForm.propTypes = {
+    toggle: PropTypes.func.isRequired
+}
+
 
 export default BlogForm
