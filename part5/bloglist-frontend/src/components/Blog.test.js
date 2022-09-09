@@ -35,6 +35,29 @@ test('renders title and author but does not render url and likes by default', ()
 })
 
 
+test('renders url and likes when the button controlling the shown details has been clicked', () => {
+    const blog = {
+        title: 'Test blog',
+        author: 'Test author',
+        url: 'Test url',
+        likes: 0
+    }
 
+    const component = render(
+        <Blog blog={blog} />
+    )
+
+    const button = component.getByText('view')
+    button.click()
+
+    const div = component.container.querySelector('.blogView')
+    expect(div).toHaveTextContent(
+        'Test url'
+    )
+
+    expect(div).toHaveTextContent(
+        '0'
+    )
+})
 
 
