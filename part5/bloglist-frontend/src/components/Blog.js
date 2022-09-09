@@ -48,12 +48,12 @@ const Blog = ({ blog }) => {
 
   return (
     <div style={blogStyle}>
-      <div>
-        {blog.title} <button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
+      <div className='blog'>
+        {blog.title} -- {blog.author}<button onClick={toggleVisibility}>{visible ? 'hide' : 'view'}</button>
       </div>
-      <div style={{ display: visible ? '' : 'none' }}>
+      <div className='blogView' style={{ display: visible ? '' : 'none' }}>
         {blog.url} <br />
-              likes {likes} <button onClick={likeHandler}>like</button> <br />
+        likes {likes} <button onClick={likeHandler}>like</button> <br />
         {blog.author} <br />
         <button style={deleteStyle} onClick={deleteHandler}>remove</button>
       </div>
