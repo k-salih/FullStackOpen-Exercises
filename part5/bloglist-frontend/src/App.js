@@ -70,7 +70,7 @@ const App = () => {
       <div>
         {error}
         <h2>Log in to application</h2>
-        <form onSubmit={handleLogin}>
+        <form className='login-form' onSubmit={handleLogin}>
           <div>
           username
             <input
