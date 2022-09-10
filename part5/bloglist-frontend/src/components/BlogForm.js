@@ -42,11 +42,11 @@ const BlogForm = ({ toggle }) => {
       <h2>Create new</h2>
       <form onSubmit={handleSubmit}>
         <div>
-                    title: <input value={title} onChange={({ target }) => setTitle(target.value)} />
-                    author: <input value={author} onChange={({ target }) => setAuthor(target.value)} />
-                    url: <input value={url} onChange={({ target }) => setUrl(target.value)} />
+                    title: <input id='title' value={title} onChange={({ target }) => setTitle(target.value)} />
+                    author: <input id='author' value={author} onChange={({ target }) => setAuthor(target.value)} />
+                    url: <input id='url' value={url} onChange={({ target }) => setUrl(target.value)} />
         </div>
-        <button type="submit">create</button>
+        <button id='create' type="submit">create</button>
       </form>
     </div>
   )
