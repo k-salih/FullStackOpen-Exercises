@@ -1,3 +1,5 @@
+import { checkPropTypes } from "prop-types"
+
 describe('Blog app', function() {
     beforeEach(function() {
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
@@ -31,6 +33,38 @@ describe('Blog app', function() {
         })
     })
 
+    describe('If multiple blogs exist', function () {
+        beforeEach(function () {
+            const user2 = {
+                name: 'Test User 2',
+                username: 'testuser2',
+                password: 'testpassword2'
+                }
+            cy.request('POST', 'http://localhost:3003/api/users/', user2)
+            cy.login({ username: 'testuser2', password: 'testpassword2' })
+            cy.createBlog({
+                title: 'A blog with the least likes',
+                author: 'Test User 2',
+                url: 'http://test.com',
+                likes: 0
+            })
+
+            cy.createBlog({
+                title: 'A blog with the most likes',
+                author: 'Test User 2',
+                url: 'http://test.com',
+                likes: 10
+            })
+        })
+
+        it('blogs are ordered by likes', function () {
+            cy.get('.blog').then(blogs => {
+                cy.wrap(blogs[0]).contains('A blog with the most likes')
+                cy.wrap(blogs[1]).contains('A blog with the least likes')
+            })
+        })
+    })
+
     describe('When logged in', function() {
         beforeEach(function() {
             cy.login({ username: 'testuser', password: 'testpassword' })
@@ -50,7 +84,7 @@ describe('Blog app', function() {
                 cy.createBlog({
                     title: 'A blog created by test',
                     author: 'Test User',
-                    url: 'http://test.com'
+                    url: 'http://test.com',
                 })
             })
 
@@ -79,6 +113,6 @@ describe('Blog app', function() {
                 cy.contains('remove').click()
                 cy.get('html').should('contain', 'A blog created by test')
             })
-        })
     })
+})
 })
