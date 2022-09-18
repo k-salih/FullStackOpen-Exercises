@@ -12,6 +12,18 @@ const App = () => {
     console.log('vote', id)
   }
 
+  const addAnectode = (event) => {
+    event.preventDefault()
+    const content = event.target.anectode.value
+    event.target.anectode.value = ''
+    dispatch({
+      type: 'NEW_ANECDOTE',
+      data: {
+        content
+      }
+    })
+  }
+
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -27,9 +39,9 @@ const App = () => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={addAnectode}>
+        <div><input name="anectode"/></div>
+        <button type="submit" >create</button>
       </form>
     </div>
   )
