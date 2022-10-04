@@ -3,7 +3,6 @@ import AnecdoteForm from './components/AnecdoteForm'
 import AnectodeList from './components/AnectodeList'
 import Notification from './components/Notification'
 
-import anecdoteService from './services/anecdotes'
 import { initializeAnecdotes} from './reducers/anecdoteReducer'
 import { useDispatch } from 'react-redux'
 
@@ -13,7 +12,7 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeAnecdotes())
   }, [dispatch])
-  
+
 
   return (
     <div>
