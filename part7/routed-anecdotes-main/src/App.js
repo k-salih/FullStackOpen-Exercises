@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import {
-  Routes, Route, Link, useMatch, useParams
+  Routes, Route, Link, Navigate, useMatch, useParams, useNavigate
 } from "react-router-dom"
 
 
-const AnecdoteList = ({ anecdotes }) => (
+const AnecdoteList = ({ anecdotes }) => {
+
+  return (
   <div>
+    <Notification notification={notification} />
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map(anecdote =>
@@ -15,7 +18,8 @@ const AnecdoteList = ({ anecdotes }) => (
       )}
     </ul>
   </div>
-)
+  )
+}
 
 const Anecdote = ({ anecdote }) => {
   return (
@@ -49,11 +53,14 @@ const Footer = () => (
   </div>
 )
 
+let notification = ''
+
 const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -63,8 +70,9 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/')
+    notification = (`a new anecdote ${content} created!`)
   }
-  
 
   return (
     <div>
@@ -86,7 +94,23 @@ const CreateNew = (props) => {
       </form>
     </div>
   )
+}
 
+const Notification = ({ notification }) => {
+  const [message, setMessage] = useState(notification)
+  const style = {
+    border: 'solid',
+    padding: 10,
+    borderWidth: 1
+  }
+  setTimeout(() => {
+    setMessage('')
+  }, 5000)
+  return (
+    <div style={style}>
+      {message}
+    </div>
+  )
 }
 
 const padding = {
@@ -111,7 +135,6 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
@@ -149,11 +172,10 @@ const App = () => {
         <Link style={padding} to="/create">create new</Link>
         <Link style={padding} to="/about">about</Link>
       </div>
-
       <Routes>
         <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote}/>} />
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes}/>} />
-        <Route path="/create" element={<CreateNew addNew={addNew} />} />
+        <Route path="/create" element={<CreateNew addNew={addNew}  />} />
         <Route path="/about" element={<About />} />
       </Routes>
 
