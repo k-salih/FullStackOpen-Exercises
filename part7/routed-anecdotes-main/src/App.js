@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  Routes, Route, Link, Navigate, useMatch, useParams, useNavigate
+  Routes, Route, Link, useMatch, useNavigate
 } from "react-router-dom"
 
 
@@ -147,22 +147,16 @@ const App = () => {
     ? anecdotes.find(anecdote => Number(anecdote.id) === Number(match.params.id))
     : null
 
-  const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === Number(id))
+  // const vote = (id) => {
+  //   const anecdote = anecdoteById(id)
 
+  //   const voted = {
+  //     ...anecdote,
+  //     votes: anecdote.votes + 1
+  //   }
 
-  const vote = (id) => {
-    const anecdote = anecdoteById(id)
-
-    const voted = {
-      ...anecdote,
-      votes: anecdote.votes + 1
-    }
-
-    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
-  }
-
-  
+  //   setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
+  // }
 
   return (
     <div>
