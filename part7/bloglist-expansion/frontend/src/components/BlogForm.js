@@ -2,12 +2,15 @@ import { useState } from "react";
 import Notification from "./Notification";
 import BlogService from "../services/blogs";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { notificationCreator } from "../reducers/notificationReducer";
 
 const BlogForm = ({ toggle }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
-  const [message, setMessage] = useState(null);
+
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -22,30 +25,24 @@ const BlogForm = ({ toggle }) => {
         setTitle("");
         setAuthor("");
         setUrl("");
-        setMessage(
-          <Notification
-            message={`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`}
-            negative={false}
-          />
+        dispatch(
+          notificationCreator(
+            `A new blog ${returnedBlog.title} by ${returnedBlog.author} added`,
+            5
+          )
         );
         setTimeout(() => {
-          setMessage(null);
+          notificationCreator(null, 0);
           toggle();
         }, 5000);
       })
       .catch((error) => {
-        setMessage(
-          <Notification message={error.response.data.error} negative={true} />
-        );
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
+        dispatch(notificationCreator(error.response.data.error, 5));
       });
   };
 
   return (
     <div>
-      {message}
       <h2>Create new</h2>
       <form onSubmit={handleSubmit}>
         <div>

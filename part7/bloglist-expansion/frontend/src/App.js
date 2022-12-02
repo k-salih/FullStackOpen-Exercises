@@ -5,13 +5,16 @@ import loginService from "./services/login";
 import BlogForm from "./components/BlogForm";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
+import { useDispatch } from "react-redux";
+import { notificationCreator } from "./reducers/notificationReducer";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     blogService
@@ -47,13 +50,9 @@ const App = () => {
       setUser(user);
       setUsername("");
       setPassword("");
+      dispatch(notificationCreator(`Welcome ${user.name}`, 5));
     } catch (exception) {
-      setError(
-        <Notification message={exception.response.data.error} negative={true} />
-      );
-      setTimeout(() => {
-        setError(null);
-      }, 5000);
+      dispatch(notificationCreator("wrong username or password", 5));
     }
   };
 
@@ -65,7 +64,7 @@ const App = () => {
   if (user === null) {
     return (
       <div>
-        {error}
+        {<Notification />}
         <h2>Log in to application</h2>
         <form className="login-form" onSubmit={handleLogin}>
           <div>
@@ -104,6 +103,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification />
       <h2>blogs</h2>
       <p>
         {user.name} logged in <button onClick={handleLogout}>logout</button>
